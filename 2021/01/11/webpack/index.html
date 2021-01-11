@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          基于Webpack项目工程化 - 周云龙的博客 | Long&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://example.com/2021/01/11/webpack/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/hux-blog.min.css">
+
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Long&#39;s Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="http://example.com/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('post-bg.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#项目工程化" title="项目工程化">项目工程化</a>
+                        
+                    </div>
+                    <h1>基于Webpack项目工程化</h1>
+                    <h2 class="subheading">又是一波整合的配置</h2>
+                    <span class="meta">
+                        Posted by Long on
+                        2021-01-11
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h2 id="Webpack"><a href="#Webpack" class="headerlink" title="Webpack"></a>Webpack</h2><blockquote>
+<p>webpack是一个打包工具，可以打包一切前端相关资源</p>
+</blockquote>
+<p>学习webpack，掌握3个要素</p>
+<ul>
+<li>理解打包过程</li>
+<li>熟悉打包配置</li>
+<li>了解webpack生态</li>
+</ul>
+<p>比较其他的打包工具👇</p>
+<p><a target="_blank" rel="noopener" href="https://rollupjs.org/guide/en/">rollup</a>：一般用打包JS库，打包单纯的JS用的比较多，打包其他资源需要借助插件</p>
+<p><a target="_blank" rel="noopener" href="https://parceljs.org/">parcel</a>：0配置打包工具</p>
+<p><a target="_blank" rel="noopener" href="https://gulpjs.com/">gulp</a>：基于流的打包工具，逐渐被替代</p>
+<h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>核心配置：</p>
+<ul>
+<li>entry: 打包入口</li>
+<li>output: 打包输出目录</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">output: &#123;</span><br><span class="line">  filename: <span class="string">&#x27;[name].bundle.[chunkhash].[ext]&#x27;</span>,</span><br><span class="line">  <span class="comment">// 绝对路径  </span></span><br><span class="line">  path: path.resolve(__dirname, <span class="string">&#x27;dist&#x27;</span>),</span><br><span class="line">  <span class="comment">// 配置动态加载</span></span><br><span class="line">  chunkFilename: <span class="string">&#x27;[name].bundle.js&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>module(Loader): 处理各种资源</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>: &#123;</span><br><span class="line">  rules: [</span><br><span class="line">    &#123;</span><br><span class="line">      test: <span class="regexp">/\.jsx$/</span>,</span><br><span class="line">      use: [</span><br><span class="line">        &#123;</span><br><span class="line">          loader: <span class="string">&#x27;babel-loader&#x27;</span>,</span><br><span class="line">          options: &#123;</span><br><span class="line">            <span class="comment">// 支持解析jsx以及tsx</span></span><br><span class="line">            presets: [<span class="string">&quot;@babel/preset-react&quot;</span>, <span class="string">&quot;@babel/preset-typescript&quot;</span>],</span><br><span class="line">            <span class="comment">// 缓存编译目录</span></span><br><span class="line">            cacheDirectory: <span class="literal">true</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="comment">// 处理样式</span></span><br><span class="line">      test: <span class="regexp">/\.css$/</span>,</span><br><span class="line">      <span class="comment">// 执行的顺序 less-loader =&gt; css-loader =&gt; style-loader</span></span><br><span class="line">      <span class="comment">// ExractTextPlugin 提取css到单独文件,同时配置参数</span></span><br><span class="line">      <span class="comment">// plugins: [</span></span><br><span class="line">  		<span class="comment">//   new ExtractTextPlugin(&#123;</span></span><br><span class="line">      <span class="comment">//     filename:  (getPath) =&gt; &#123;</span></span><br><span class="line">      <span class="comment">//       return getPath(&#x27;css/[name].css&#x27;).replace(&#x27;css/js&#x27;, &#x27;css&#x27;);</span></span><br><span class="line">      <span class="comment">//   	 &#125;,</span></span><br><span class="line">      <span class="comment">//     allChunks: true</span></span><br><span class="line">      <span class="comment">//   &#125;)</span></span><br><span class="line">      <span class="comment">// ]</span></span><br><span class="line">      use: ExractTextPlugin.extract(&#123;</span><br><span class="line">        fallback: <span class="string">&#x27;style-loader&#x27;</span>,</span><br><span class="line">        use: [</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="comment">// 解析css</span></span><br><span class="line">            loader: <span class="string">&#x27;css-loader&#x27;</span>,</span><br><span class="line">            options: &#123;</span><br><span class="line">              <span class="comment">// 开启css模块化</span></span><br><span class="line">              modules: <span class="literal">true</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125;,</span><br><span class="line">          <span class="string">&#x27;postcss-loader&#x27;</span>,</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="comment">// 将less转换为css</span></span><br><span class="line">            loader: <span class="string">&#x27;less-loader&#x27;</span>,</span><br><span class="line">            options: &#123;</span><br><span class="line">              xxx: xxx</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        ]</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="comment">// 处理图片</span></span><br><span class="line">      test: <span class="regexp">/\.(png|svg|jpg|gif)$/</span>,</span><br><span class="line">      use: [</span><br><span class="line">        <span class="string">&#x27;file-loader&#x27;</span></span><br><span class="line">      ]</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="comment">// 处理字体文件</span></span><br><span class="line">      test: <span class="regexp">/\.(woff|woff2|eot|ttf|otf)$/</span>,</span><br><span class="line">      use: [</span><br><span class="line">        <span class="string">&#x27;file-loader&#x27;</span></span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>plugins: 扩展webpack打包能力</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 常用的插件</span></span><br><span class="line">plugins: [</span><br><span class="line">  <span class="comment">// 打包自动生成 html 入口文件</span></span><br><span class="line">  <span class="keyword">new</span> HtmlWebpackPlugin(&#123; <span class="attr">title</span>: <span class="string">&#x27;output page&#x27;</span> &#125;),</span><br><span class="line">  <span class="comment">// 清理打包之后的目录</span></span><br><span class="line">  <span class="keyword">new</span> CleanWebpackPlugin([<span class="string">&#x27;dist&#x27;</span>]),</span><br><span class="line">  <span class="comment">// 定义环境变量</span></span><br><span class="line">  <span class="keyword">new</span> webpack.DefinePlugin(&#123;</span><br><span class="line">    <span class="string">&#x27;process.env.NODE_ENV&#x27;</span>: <span class="built_in">JSON</span>.stringify(<span class="string">&#x27;development&#x27;</span>)</span><br><span class="line">  &#125;),</span><br><span class="line">  <span class="comment">// 压缩代码</span></span><br><span class="line">  <span class="keyword">new</span> UglifyJSPlugin()</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<h3 id="开发相关"><a href="#开发相关" class="headerlink" title="开发相关"></a>开发相关</h3><ul>
+<li>mode: 打包模式，用于webpack内部，外界只需要传<code>development | production</code></li>
+<li>devtool: 配置<code>source map</code></li>
+</ul>
+<blockquote>
+<p>source map的作用是将编译后的代码映射回原始源代码</p>
+</blockquote>
+<ul>
+<li>devserver: 配置<code>webpack-dev-server</code>，官方提供的开发服务器<ul>
+<li>hot: <code>true | false</code> 是否启动热加载</li>
+<li>proxy: 解决跨域</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>热加载的作用是局部更新代码，如果我们没有使用框架，则需要自己实现热加载逻辑</p>
+</blockquote>
+<ul>
+<li>resolver: 解决文件识别问题<ul>
+<li>extensions: <code>[&#39;js&#39;, &#39;jsx&#39;]</code> 自动识别文件后缀，引入时可不加后缀</li>
+<li>alias: <code>&#123; &#39;src&#39;: path.resolve(__dirname, &quot;src/&quot;) &#125;</code> 路径别名</li>
+</ul>
+</li>
+</ul>
+<h3 id="优化相关"><a href="#优化相关" class="headerlink" title="优化相关"></a>优化相关</h3><ul>
+<li><p>分析工具</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://alexkuz.github.io/webpack-chart/">webpack-chart</a>: webpack 数据交互饼图</li>
+<li><a target="_blank" rel="noopener" href="https://chrisbateman.github.io/webpack-visualizer/">webpack-visualizer</a>: 可视化并分析你的 bundle，检查哪些模块占用空间，哪些可能是重复使用的</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/webpack-contrib/webpack-bundle-analyzer">webpack-bundle-analyzer</a>: 一款分析 bundle 内容的插件及 CLI 工具，以便捷的、交互式、可缩放的树状图形式展现给用户</li>
+</ul>
+</li>
+<li><p><code>mode: production</code>，默认开始<code>tree shaking</code></p>
+</li>
+</ul>
+<blockquote>
+<p>tree shaking的作用打包中剔除没有使用过的代码</p>
+</blockquote>
+<ul>
+<li>动态加载/懒加载：采用ES6<code>import</code>语法，<code>import(&#39;path/to/module&#39;) -&gt; Promise</code>，不会影响总打包的大小，提升代码执行速度</li>
+<li>浏览器缓存</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">entry: &#123;</span><br><span class="line">  main: <span class="string">&#x27;./src/index.js&#x27;</span>,</span><br><span class="line">  vendor: [<span class="string">&#x27;lodash&#x27;</span>, <span class="string">&#x27;react&#x27;</span>]</span><br><span class="line">&#125;</span><br><span class="line">plugins: [</span><br><span class="line">  <span class="comment">// 确保hash值代表一个bundle</span></span><br><span class="line">  <span class="keyword">new</span> webpack.HashedModuleIdsPlugin(),</span><br><span class="line">  <span class="comment">// 抽取第三方模块</span></span><br><span class="line">  <span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;</span><br><span class="line">     name: <span class="string">&#x27;vendor&#x27;</span></span><br><span class="line">  &#125;),</span><br><span class="line">  <span class="comment">// 抽取webpack执行上下文</span></span><br><span class="line">  <span class="keyword">new</span> webpack.optimize.CommonsChunkPlugin(&#123;</span><br><span class="line">     name: <span class="string">&#x27;manifest&#x27;</span></span><br><span class="line">  &#125;)</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<ul>
+<li>webpack深度优化</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">optimization: &#123;</span><br><span class="line">    minimizer: [</span><br><span class="line">      <span class="keyword">new</span> TerserWebpackPlugin(&#123;</span><br><span class="line">        terserOptions: &#123;</span><br><span class="line">          warnings: <span class="literal">false</span>,</span><br><span class="line">          compress: &#123;</span><br><span class="line">            warnings: <span class="literal">false</span>,</span><br><span class="line">            <span class="comment">// 是否注释掉console</span></span><br><span class="line">            drop_console: <span class="literal">false</span>,</span><br><span class="line">            dead_code: <span class="literal">true</span>,</span><br><span class="line">            drop_debugger: <span class="literal">true</span>,</span><br><span class="line">          &#125;,</span><br><span class="line">          output: &#123;</span><br><span class="line">            comments: <span class="literal">false</span>,</span><br><span class="line">            beautify: <span class="literal">false</span>,</span><br><span class="line">          &#125;,</span><br><span class="line">          <span class="comment">// 混淆</span></span><br><span class="line">          mangle: <span class="literal">true</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="comment">// 多线程打包</span></span><br><span class="line">        parallel: <span class="literal">true</span>,</span><br><span class="line">        <span class="comment">// 是否开启source map</span></span><br><span class="line">        sourceMap: <span class="literal">false</span>,</span><br><span class="line">      &#125;)</span><br><span class="line">    ],</span><br><span class="line">    splitChunks: &#123;</span><br><span class="line">      cacheGroups: &#123;</span><br><span class="line">        commons: &#123;</span><br><span class="line">          name: <span class="string">&#x27;commons&#x27;</span>,</span><br><span class="line">          chunks: <span class="string">&#x27;initial&#x27;</span>,</span><br><span class="line">          minChunks: <span class="number">3</span>,</span><br><span class="line">          enforce: <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="环境隔离"><a href="#环境隔离" class="headerlink" title="环境隔离"></a>环境隔离</h3><p>一般使用<code>webpack-merge</code>第三库，合并配置并输出</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> webpackMerge = <span class="built_in">require</span>(<span class="string">&#x27;webpack-merge&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> baseWebpackConfig = <span class="built_in">require</span>(<span class="string">&#x27;./webpack.config.base&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> webpackConfig = webpackMerge(baseWebpackConfig, &#123;</span><br><span class="line">  mode: <span class="string">&#x27;development&#x27;</span>,</span><br><span class="line">  devtool: <span class="string">&#x27;eval-source-map&#x27;</span>,</span><br><span class="line">  stats: &#123; <span class="attr">children</span>: <span class="literal">false</span> &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = webpackConfig</span><br></pre></td></tr></table></figure>
+<h3 id="流行脚手架特性"><a href="#流行脚手架特性" class="headerlink" title="流行脚手架特性"></a>流行脚手架特性</h3><ul>
+<li>具备开发服务器 <a target="_blank" rel="noopener" href="https://github.com/webpack/webpack-dev-server">webpack-dev-server</a></li>
+<li>打包HTML，CSS，JS，图片，字体文件</li>
+<li>整合Eslint（检查代码风格），Typescript（静态编译检查），Babel（语法降级，优化编译）</li>
+<li>生产构建优化</li>
+<li>开发环境打包速度优化</li>
+</ul>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/2021/01/10/hello-bolg/" data-toggle="tooltip" data-placement="top" title="Welcome to Long's Blog">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#项目工程化" title="项目工程化">项目工程化</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "Long";
+    var disqus_identifier = "http://example.com/2021/01/11/webpack/";
+    var disqus_url = "http://example.com/2021/01/11/webpack/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/N1cholas">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Long&#39;s Blog 2021 
+                    <br>
+                    Theme by <a target="_blank" rel="noopener" href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a target="_blank" rel="noopener" href="http://blog.kaijun.rocks">Kaijun</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=kaijun&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://example.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Side Catalog -->
+
+
+
+
+
+<!-- Image to hack wechat -->
+<!--<img src="http://example.com/img/icon_wechat.png" width="0" height="0" />-->
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
