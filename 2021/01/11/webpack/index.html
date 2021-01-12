@@ -280,6 +280,34 @@
 <li>生产构建优化</li>
 <li>开发环境打包速度优化</li>
 </ul>
+<h2 id="Babel"><a href="#Babel" class="headerlink" title="Babel"></a>Babel</h2><blockquote>
+<p>JS编译器</p>
+</blockquote>
+<p>Babel 是一个工具链，主要用于将 ECMAScript 2015+ 版本的代码转换为向后兼容的 JavaScript 语法，以便能够运行在当前和旧版本的浏览器或其他环境中</p>
+<ul>
+<li>语法转换</li>
+<li>通过 <code>Polyfill</code> 方式在目标环境中添加缺失的特性(<code>@babel/polyfill模块</code>)</li>
+<li>源码转换(codemods)</li>
+</ul>
+<h3 id="核心库-babel-core"><a href="#核心库-babel-core" class="headerlink" title="核心库 @babel/core"></a>核心库 @babel/core</h3><p>Babel 的核心功能包含在 <code>@babel/core</code> 模块中</p>
+<h3 id="预设preset"><a href="#预设preset" class="headerlink" title="预设preset"></a>预设preset</h3><p><code>@babel/preset-env</code> ，语法转换</p>
+<blockquote>
+<p>主要作用是对我们所使用的并且目标浏览器中缺失的功能进行代码转换和加载 <code>polyfill</code>，在不进行任何配置的情况下，<code>@babel/preset-env</code> 所包含的插件将支持所有最新的JS特性(ES2015,ES2016等，不包含 stage 阶段)，将其转换成ES5代码。</p>
+</blockquote>
+<p>一般配合<code>.browserslistrc</code>来决定编译的范围</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//.browserslistrc</span></span><br><span class="line">&gt; <span class="number">0.25</span>%</span><br><span class="line">not dead</span><br></pre></td></tr></table></figure>
+<p>遇到一些浏览器不支持的函数，例如<code>Promise</code>，则需要引入<code>@babel/polyfill</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 手动引入</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;@babel/polyfill&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p>但是，有时候我们希望用到一些不兼容的函数才引入<code>polyfill</code>，那么配置需要改</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//.babelrc</span></span><br><span class="line"><span class="keyword">const</span> presets = [</span><br><span class="line">  [</span><br><span class="line">    <span class="string">&quot;@babel/env&quot;</span>,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">&quot;useBuiltIns&quot;</span>: <span class="string">&quot;usage&quot;</span>,</span><br><span class="line">      <span class="string">&quot;corejs&quot;</span>: <span class="number">3</span>,</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
 
 
                 <hr>
